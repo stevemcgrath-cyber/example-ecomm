@@ -1,1 +1,993 @@
-Index
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BloomCart | Modern Retail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0e1c36;
+        --midnight: #13284b;
+        --royal: #1c49f2;
+        --azure: #37b4ff;
+        --lavender: #b18bff;
+        --sand: #f6f4f0;
+        --mist: #d3d9ee;
+        --cool-gray: rgba(255, 255, 255, 0.72);
+        --border: rgba(255, 255, 255, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        color: var(--sand);
+        background: radial-gradient(circle at 20% 20%, #1a2b53 0%, #070c17 60%),
+          linear-gradient(145deg, #070c17, #0f1832);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0 2rem;
+        position: sticky;
+        top: 0;
+        background: rgba(7, 12, 23, 0.8);
+        backdrop-filter: blur(12px);
+        z-index: 10;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--azure);
+        letter-spacing: 0.04em;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      nav a {
+        opacity: 0.85;
+        transition: opacity 200ms;
+      }
+
+      nav a:hover {
+        opacity: 1;
+      }
+
+      .badge {
+        padding: 0.35rem 0.85rem;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2.5rem;
+        align-items: center;
+        padding: 2rem 0 3rem;
+      }
+
+      .hero__content h1 {
+        font-size: clamp(2rem, 4vw, 3.75rem);
+        line-height: 1.1;
+        margin: 1rem 0 1.5rem;
+      }
+
+      .hero__content p {
+        max-width: 46ch;
+        color: rgba(255, 255, 255, 0.75);
+        line-height: 1.6;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      button,
+      .button {
+        font: inherit;
+        border: none;
+        border-radius: 999px;
+        padding: 0.85rem 1.5rem;
+        cursor: pointer;
+        transition: transform 150ms, box-shadow 150ms;
+      }
+
+      .button--primary {
+        background: linear-gradient(120deg, var(--royal), var(--azure));
+        color: white;
+        box-shadow: 0 10px 30px rgba(55, 180, 255, 0.25);
+      }
+
+      .button--ghost {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: transparent;
+        color: white;
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      .hero__carousel {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        min-height: 360px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .hero__slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 600ms ease;
+      }
+
+      .hero__slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.65));
+      }
+
+      .hero__slide-content {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        z-index: 2;
+      }
+
+      .hero__slide.active {
+        opacity: 1;
+      }
+
+      .hero__pager {
+        position: absolute;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+        z-index: 3;
+      }
+
+      .hero__pager span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: background 200ms;
+      }
+
+      .hero__pager span.active {
+        background: var(--azure);
+      }
+
+      .logo-strip {
+        margin: 2rem 0 4rem;
+        padding: 1.5rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      section {
+        margin-bottom: 4.5rem;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.5rem);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: rgba(13, 20, 41, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        transition: transform 200ms, border 200ms;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(55, 180, 255, 0.4);
+      }
+
+      .product-card__media {
+        border-radius: 16px;
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+
+      .product-card__badge {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 999px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+      }
+
+      .product-card__title {
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .product-card__meta {
+        display: flex;
+        justify-content: space-between;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+      }
+
+      .category-card {
+        padding: 1.5rem;
+        min-height: 180px;
+        justify-content: space-between;
+        background: linear-gradient(135deg, rgba(28, 73, 242, 0.2), rgba(55, 180, 255, 0.1));
+      }
+
+      .category-card span {
+        font-size: 2rem;
+      }
+
+      .category-card h3 {
+        margin: 0.5rem 0 0.3rem;
+      }
+
+      .category-card p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      .product-detail {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(6, 9, 20, 0.8);
+      }
+
+      .product-detail__media {
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .product-detail__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .product-detail__price {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0.5rem 0 1rem;
+      }
+
+      .size-picker {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin: 1.5rem 0;
+      }
+
+      .size-pill {
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        transition: background 150ms;
+      }
+
+      .size-pill.active {
+        background: rgba(28, 73, 242, 0.4);
+        border-color: rgba(55, 180, 255, 0.9);
+      }
+
+      .qty-control {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-right: 1rem;
+      }
+
+      .qty-control button {
+        border-radius: 0;
+        padding: 0.6rem 1rem;
+        background: transparent;
+        border: none;
+        color: white;
+      }
+
+      .qty-control span {
+        padding: 0 1.2rem;
+      }
+
+      .cart {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .cart-panel {
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 1.5rem;
+      }
+
+      .cart-panel__items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.95rem;
+      }
+
+      .cart-panel__summary {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .cart-panel__summary div {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .cart-panel__summary .free {
+        color: var(--azure);
+        font-weight: 600;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      input,
+      select,
+      textarea {
+        padding: 0.8rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font: inherit;
+        background: rgba(255, 255, 255, 0.03);
+        color: white;
+      }
+
+      .success-banner {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 16px;
+        border: 1px solid rgba(55, 180, 255, 0.4);
+        background: rgba(28, 73, 242, 0.15);
+        display: none;
+      }
+
+      footer {
+        margin-top: 3rem;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.6);
+        text-align: center;
+      }
+
+      @media (max-width: 640px) {
+        nav {
+          display: none;
+        }
+
+        header {
+          position: static;
+        }
+
+        .hero__content h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <span class="logo">BloomCart</span>
+        <nav>
+          <a href="#products">Products</a>
+          <a href="#categories">Categories</a>
+          <a href="#detail">Product Detail</a>
+          <a href="#checkout">Checkout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="home">
+          <div class="hero__content">
+            <span class="badge">BLOOM-COLOR COMMERCE</span>
+            <h1>Retail that feels crafted, curated, and instantly shoppable.</h1>
+            <p>
+              Launch a premium storefront with immersive storytelling, smart merchandising,
+              and a checkout that feels effortless—even when it’s free. Inspired by the
+              gradient-rich palette of bloomreach.com.
+            </p>
+            <div class="cta-row">
+              <button class="button button--primary">Explore the collection</button>
+              <button class="button button--ghost">See how checkout works</button>
+            </div>
+          </div>
+          <div class="hero__carousel" aria-label="Hero carousel">
+            <div
+              class="hero__slide active"
+              style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=900&q=80');"
+            >
+              <div class="hero__slide-content">
+                <p class="badge">EDITOR’S PICK</p>
+                <h3>Organic silhouettes—all comfort, no compromise.</h3>
+              </div>
+            </div>
+            <div
+              class="hero__slide"
+              style="background-image: url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80');"
+            >
+              <div class="hero__slide-content">
+                <p class="badge">FOR EVENTS</p>
+                <h3>Statement looks with shimmered detailing.</h3>
+              </div>
+            </div>
+            <div
+              class="hero__slide"
+              style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80');"
+            >
+              <div class="hero__slide-content">
+                <p class="badge">ELEVATED BASICS</p>
+                <h3>Sound, scent, and essentials for home rituals.</h3>
+              </div>
+            </div>
+            <div class="hero__pager" aria-hidden="true">
+              <span class="active"></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="logo-strip" aria-label="Partner logos">
+          <span>ATELIER</span>
+          <span>NORDIC</span>
+          <span>VANTAGE</span>
+          <span>LUMEN</span>
+          <span>POLARIS</span>
+          <span>FELT STUDIO</span>
+        </section>
+
+        <section id="products">
+          <div class="section-heading">
+            <h2>Featured products</h2>
+            <p>Tap any card to open the full product detail experience.</p>
+          </div>
+          <div class="grid" id="productGrid"></div>
+        </section>
+
+        <section id="categories">
+          <div class="section-heading">
+            <h2>Curated categories</h2>
+            <button class="button button--ghost">See all categories</button>
+          </div>
+          <div class="grid" id="categoryGrid"></div>
+        </section>
+
+        <section id="detail" aria-live="polite">
+          <div class="section-heading">
+            <h2>Product detail</h2>
+            <p>Complete with size selection and an add-to-cart button.</p>
+          </div>
+          <article class="product-detail">
+            <div class="product-detail__media">
+              <img id="detailImage" alt="Selected product" />
+            </div>
+            <div>
+              <div class="badge" id="detailCategory">CATEGORY</div>
+              <h3 id="detailName">Select a product</h3>
+              <p class="product-detail__price" id="detailPrice">$0.00</p>
+              <p id="detailDescription">
+                Choose any product from the gallery to view its storytelling details.
+              </p>
+              <div>
+                <p>Available sizes</p>
+                <div class="size-picker" id="sizePicker"></div>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 1.5rem">
+                <div class="qty-control" aria-label="Quantity selector">
+                  <button type="button" id="decreaseQty">-</button>
+                  <span id="quantity">1</span>
+                  <button type="button" id="increaseQty">+</button>
+                </div>
+                <span style="color: rgba(255, 255, 255, 0.6)">Ships free &amp; carbon neutral</span>
+              </div>
+              <button class="button button--primary" id="addToCart">Add to cart — free checkout</button>
+            </div>
+          </article>
+        </section>
+
+        <section id="checkout">
+          <div class="section-heading">
+            <h2>Checkout (free)</h2>
+            <p>Review your bag and complete a zero-dollar checkout.</p>
+          </div>
+          <div class="cart">
+            <div class="cart-panel">
+              <h3>Bag summary</h3>
+              <ul class="cart-panel__items" id="cartItems"></ul>
+              <div class="cart-panel__summary">
+                <div><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+                <div><span>Credits applied</span><span>-$<span id="cartCredits">0.00</span></span></div>
+                <div><span>Shipping</span><span>Included</span></div>
+                <div><span>Due today</span><span class="free">$0.00</span></div>
+              </div>
+            </div>
+            <div class="cart-panel">
+              <h3>Complete checkout</h3>
+              <form id="checkoutForm">
+                <div>
+                  <label for="fullName">Full name</label>
+                  <input id="fullName" name="fullName" placeholder="Alex Bloom" required />
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="you@brand.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="address">Shipping address</label>
+                  <textarea
+                    id="address"
+                    name="address"
+                    rows="3"
+                    placeholder="100 Gradient Way, San Francisco, CA"
+                    required
+                  ></textarea>
+                </div>
+                <div>
+                  <label for="notes">Order note (optional)</label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    rows="2"
+                    placeholder="Add delivery instructions..."
+                  ></textarea>
+                </div>
+                <button class="button button--primary" type="submit">
+                  Complete free checkout
+                </button>
+              </form>
+              <div class="success-banner" id="successBanner">
+                <h4>Order placed</h4>
+                <p>
+                  Your order is confirmed—no payment needed. Check your inbox for the instant
+                  confirmation email.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>&copy; <span id="year"></span> BloomCart. Inspired by Bloomreach gradients.</footer>
+    </div>
+
+    <script>
+      const products = [
+        {
+          id: "p1",
+          name: "Aurora Linen Dress",
+          price: 168,
+          description:
+            "Relaxed luxury in breathable linen with a draped waistline. Perfect for warm weekends or rooftop evenings.",
+          category: "Women · Apparel",
+          badge: "New",
+          rating: 4.9,
+          reviews: 132,
+          image:
+            "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=80",
+          sizes: ["XS", "S", "M", "L", "XL"],
+        },
+        {
+          id: "p2",
+          name: "Lumen Traveler Tote",
+          price: 248,
+          description:
+            "Recycled leather, smart internal pockets, and a removable tech sleeve for hybrid work days.",
+          category: "Accessories",
+          badge: "Bestseller",
+          rating: 4.8,
+          reviews: 201,
+          image:
+            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80",
+          sizes: ["OS"],
+        },
+        {
+          id: "p3",
+          name: "Halo Knit Crew",
+          price: 138,
+          description:
+            "Cloud-soft knitwear with thermo regulation for layering across seasons.",
+          category: "Unisex · Apparel",
+          badge: "Limited",
+          rating: 4.7,
+          reviews: 89,
+          image:
+            "https://images.unsplash.com/photo-1484519332611-516457305ff6?auto=format&fit=crop&w=900&q=80",
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        },
+        {
+          id: "p4",
+          name: "Studio Wireless Headphones",
+          price: 199,
+          description:
+            "Spatial audio in a matte shell inspired by Bloomreach blues. Up to 35 hours of play.",
+          category: "Sound",
+          badge: "Giftable",
+          rating: 5,
+          reviews: 54,
+          image:
+            "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80",
+          sizes: ["OS"],
+        },
+        {
+          id: "p5",
+          name: "Solstice Scent Duo",
+          price: 98,
+          description:
+            "Two-piece set featuring twilight lavender and coastal pine—crafted for evening rituals.",
+          category: "Home · Fragrance",
+          badge: "Set",
+          rating: 4.6,
+          reviews: 77,
+          image:
+            "https://images.unsplash.com/photo-1505740106531-4243f3831c78?auto=format&fit=crop&w=900&q=80",
+          sizes: ["OS"],
+        },
+        {
+          id: "p6",
+          name: "Arcade Runner",
+          price: 158,
+          description:
+            "Performance knit sneaker with algae-based foam midsole and reflective gradient panels.",
+          category: "Footwear",
+          badge: "Just in",
+          rating: 4.8,
+          reviews: 65,
+          image:
+            "https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=60",
+          sizes: ["6", "7", "8", "9", "10", "11", "12"],
+        },
+      ];
+
+      const categories = [
+        {
+          title: "Gradient Wardrobe",
+          description: "Soft tailoring and chromatic knits for hybrid calendars.",
+          icon: "🌀",
+        },
+        {
+          title: "Home Rituals",
+          description: "Scent, sound, and light for mindful evenings.",
+          icon: "🕯️",
+        },
+        {
+          title: "Travel Studio",
+          description: "Carry-ons, totes, and organizers built for movement.",
+          icon: "🧳",
+        },
+        {
+          title: "Everyday Tech",
+          description: "Audio, wearables, and charging in bloom-inspired hues.",
+          icon: "🎧",
+        },
+        {
+          title: "Statement Footwear",
+          description: "Energized sneakers and sculptural boots.",
+          icon: "👟",
+        },
+        {
+          title: "Gift sets",
+          description: "Minimal packaging, maximum delight for any recipient.",
+          icon: "🎁",
+        },
+      ];
+
+      const productGrid = document.getElementById("productGrid");
+      const categoryGrid = document.getElementById("categoryGrid");
+      const detailImage = document.getElementById("detailImage");
+      const detailName = document.getElementById("detailName");
+      const detailPrice = document.getElementById("detailPrice");
+      const detailDescription = document.getElementById("detailDescription");
+      const detailCategory = document.getElementById("detailCategory");
+      const sizePicker = document.getElementById("sizePicker");
+      const quantitySpan = document.getElementById("quantity");
+      const addToCartBtn = document.getElementById("addToCart");
+      const cartItemsList = document.getElementById("cartItems");
+      const cartSubtotalEl = document.getElementById("cartSubtotal");
+      const cartCreditsEl = document.getElementById("cartCredits");
+      const successBanner = document.getElementById("successBanner");
+      const heroSlides = document.querySelectorAll(".hero__slide");
+      const heroDots = document.querySelectorAll(".hero__pager span");
+      let currentSlide = 0;
+      let selectedProduct = products[0];
+      let selectedSize = "";
+      let quantity = 1;
+      const cart = [];
+
+      const formatPrice = (value) => `$${value.toFixed(2)}`;
+
+      function renderProducts() {
+        productGrid.innerHTML = products
+          .map(
+            (product) => `
+            <article class="card product-card" data-id="${product.id}">
+              <div class="product-card__media" style="background-image:url('${product.image}')">
+                <span class="product-card__badge">${product.badge}</span>
+              </div>
+              <div class="product-card__body">
+                <h3 class="product-card__title">${product.name}</h3>
+                <p style="margin:0; color:rgba(255,255,255,0.7); font-size:0.9rem;">${product.category}</p>
+                <div class="product-card__meta">
+                  <span>${formatPrice(product.price)}</span>
+                  <span>${product.rating} ★ (${product.reviews})</span>
+                </div>
+              </div>
+              <button class="button button--ghost" data-quick-add="${product.id}">Quick add · free</button>
+            </article>
+          `
+          )
+          .join("");
+      }
+
+      function renderCategories() {
+        categoryGrid.innerHTML = categories
+          .map(
+            (category) => `
+            <article class="card category-card">
+              <span>${category.icon}</span>
+              <div>
+                <h3>${category.title}</h3>
+                <p>${category.description}</p>
+              </div>
+            </article>
+          `
+          )
+          .join("");
+      }
+
+      function renderSizes(sizes) {
+        sizePicker.innerHTML = sizes
+          .map(
+            (size) => `<button type="button" class="size-pill" data-size="${size}">${size}</button>`
+          )
+          .join("");
+      }
+
+      function setDetail(product) {
+        selectedProduct = product;
+        selectedSize = "";
+        quantity = 1;
+        quantitySpan.textContent = quantity;
+        detailImage.src = product.image;
+        detailImage.alt = product.name;
+        detailName.textContent = product.name;
+        detailPrice.textContent = formatPrice(product.price);
+        detailDescription.textContent = product.description;
+        detailCategory.textContent = product.category.toUpperCase();
+        renderSizes(product.sizes);
+      }
+
+      function updateCartUI() {
+        if (!cart.length) {
+          cartItemsList.innerHTML =
+            '<li style="color: rgba(255,255,255,0.6);">Your bag is empty. Add something you love.</li>';
+        } else {
+          cartItemsList.innerHTML = cart
+            .map(
+              (item) => `
+              <li class="cart-item">
+                <span>${item.name} (${item.size}) × ${item.qty}</span>
+                <strong>${formatPrice(item.price * item.qty)}</strong>
+              </li>
+            `
+            )
+            .join("");
+        }
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        cartSubtotalEl.textContent = formatPrice(subtotal);
+        cartCreditsEl.textContent = subtotal.toFixed(2);
+      }
+
+      function addToCart() {
+        if (!selectedSize) {
+          alert("Please choose a size before adding to cart.");
+          return;
+        }
+        const existing = cart.find(
+          (item) => item.id === selectedProduct.id && item.size === selectedSize
+        );
+        if (existing) {
+          existing.qty += quantity;
+        } else {
+          cart.push({
+            id: selectedProduct.id,
+            name: selectedProduct.name,
+            size: selectedSize,
+            qty: quantity,
+            price: selectedProduct.price,
+          });
+        }
+        updateCartUI();
+        successBanner.style.display = "none";
+      }
+
+      productGrid.addEventListener("click", (event) => {
+        const card = event.target.closest(".product-card");
+        if (!card) return;
+        const product = products.find((p) => p.id === card.dataset.id);
+        if (!product) return;
+        setDetail(product);
+        if (event.target.matches("[data-quick-add]")) {
+          selectedSize = product.sizes[0];
+          quantity = 1;
+          addToCart();
+        }
+        document.getElementById("detail").scrollIntoView({ behavior: "smooth" });
+      });
+
+      sizePicker.addEventListener("click", (event) => {
+        if (!event.target.matches(".size-pill")) return;
+        document
+          .querySelectorAll(".size-pill")
+          .forEach((pill) => pill.classList.remove("active"));
+        event.target.classList.add("active");
+        selectedSize = event.target.dataset.size;
+      });
+
+      document.getElementById("increaseQty").addEventListener("click", () => {
+        quantity = Math.min(10, quantity + 1);
+        quantitySpan.textContent = quantity;
+      });
+
+      document.getElementById("decreaseQty").addEventListener("click", () => {
+        quantity = Math.max(1, quantity - 1);
+        quantitySpan.textContent = quantity;
+      });
+
+      addToCartBtn.addEventListener("click", addToCart);
+
+      document.getElementById("checkoutForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        cart.length = 0;
+        updateCartUI();
+        event.target.reset();
+        successBanner.style.display = "block";
+        successBanner.scrollIntoView({ behavior: "smooth" });
+      });
+
+      function rotateHero() {
+        heroSlides[currentSlide].classList.remove("active");
+        heroDots[currentSlide].classList.remove("active");
+        currentSlide = (currentSlide + 1) % heroSlides.length;
+        heroSlides[currentSlide].classList.add("active");
+        heroDots[currentSlide].classList.add("active");
+      }
+
+      setInterval(rotateHero, 4500);
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      renderProducts();
+      renderCategories();
+      setDetail(products[0]);
+      updateCartUI();
+    </script>
+  </body>
+</html>
